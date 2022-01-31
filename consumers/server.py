@@ -63,23 +63,23 @@ def run_server():
     # Build kafka consumers
     consumers = [
         KafkaConsumer(
-            "org.chicago.cta.weather.v1",
+            "org.chicago.cta.weather.v1",  # Rest proxy weather.py
             weather_model.process_message,
             offset_earliest=True,
         ),
         KafkaConsumer(
-            "org.chicago.cta.stations.table.v1",
+            "org.chicago.cta.stations.table.v1",  # Rest Connect connector.py -> faust_stream
             lines.process_message,
             offset_earliest=True,
             is_avro=False,
         ),
         KafkaConsumer(
-            "^org.chicago.cta.station.arrivals.",
+            "^org.chicago.cta.station.arrivals.",  # stations producer ->
             lines.process_message,
             offset_earliest=True,
         ),
         KafkaConsumer(
-            "TURNSTILE_SUMMARY",
+            "TURNSTILE_SUMMARY",  # KSQL org.chicago.cta.turnstile.v1 -> ksql.py -> TURNSTILE_SUMMARY
             lines.process_message,
             offset_earliest=True,
             is_avro=False,
