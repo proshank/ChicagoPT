@@ -56,7 +56,7 @@ def get_line(red=False, blue=False, green=False):
 
 @app.agent(topic)
 async def process_stations(stations):
-    async for station in stations.group_by(Station.station_name):
+    async for station in stations:
         transformed_station = TransformedStation(
             station_id=station.station_id,
             station_name=station.station_name,
